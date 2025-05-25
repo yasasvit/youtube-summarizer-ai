@@ -10,4 +10,4 @@ Download audio of YT video
 -> Send Transcripts to OpenAI API to get summary
 -> Generate PDF for summary
 
-yt-dlp -x --audio-format mp3 "https://www.youtube.com/watch?v=URUJD5NEXC8&ab_channel=NucleusMedicalMedia"
+yt-dlp -x --audio-format mp3 "https://www.youtube.com/watch?v=6v8djXa-IPQ&ab_channel=FreeAnimatedEducation"
