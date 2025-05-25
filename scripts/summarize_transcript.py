@@ -3,6 +3,42 @@ import openai
 import json
 import logging
 from dotenv import load_dotenv
+import markdown
+from weasyprint import HTML
+
+# convert txt with markdown to pdf file
+def convert_txt_to_pdf(text_path, pdf_path):
+    with open(text_path, "r") as f:
+        md_text = f.read()
+
+    html = markdown.markdown(md_text, extensions=['extra', 'tables', 'fenced_code'])
+
+    html = f"""
+    <html>
+    <head>
+    <style>
+    body {{
+        font-family: Arial, sans-serif;
+        margin: 2em;
+        line-height: 1.5;
+        color: #333;
+    }}
+    h1, h2, h3, h4 {{
+        color: #2e6c80;
+    }}
+    ul {{
+        margin-left: 1.5em;
+    }}
+    </style>
+    </head>
+    <body>
+    {html}
+    </body>
+    </html>
+    """
+
+    HTML(string=html).write_pdf(pdf_path)
+    print(f"PDF saved to: {pdf_path}")
 
 logging.basicConfig(
     level=logging.INFO,
@@ -63,3 +99,7 @@ else:
     logging.info(f"Summary saved to: {summary_path}")
 
 logging.info(f"Summary (first 300 chars): {summary_text[:300]}...")
+
+# Convert txt to pdf file
+pdf_output_path = "data/summaries/audio-biology-v1.summary.pdf"
+convert_txt_to_pdf(summary_path, pdf_output_path)
