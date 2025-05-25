@@ -1,4 +1,7 @@
-import os, openai, json, logging
+import os
+import openai
+import json
+import logging
 from dotenv import load_dotenv
 
 logging.basicConfig(
@@ -28,6 +31,7 @@ else:
             file=audio_file,
             model="whisper-1"
         )
+        
         # Save transcription in local json file
         transcript_dict = transcript.to_dict()
         with open(transcript_path, "w") as f:
