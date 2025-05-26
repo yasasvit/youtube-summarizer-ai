@@ -3,36 +3,36 @@ import openai
 import json
 import logging
 from dotenv import load_dotenv
-import markdown
+from markdown import markdown
 from weasyprint import HTML
 
-# convert txt with markdown to pdf file
-def convert_txt_to_pdf(text_path, pdf_path):
-    with open(text_path, "r") as f:
+def convert_txt_to_pdf(md_path, pdf_path):
+    with open(md_path, "r") as f:
         md_text = f.read()
 
-    html = markdown.markdown(md_text, extensions=['extra', 'tables', 'fenced_code'])
+    html_body = markdown(md_text, extensions=["extra", "toc", "codehilite"])
 
     html = f"""
     <html>
     <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css">
     <style>
-    body {{
-        font-family: Arial, sans-serif;
-        margin: 2em;
-        line-height: 1.5;
-        color: #333;
-    }}
-    h1, h2, h3, h4 {{
-        color: #2e6c80;
-    }}
-    ul {{
-        margin-left: 1.5em;
-    }}
+        body {{
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+        }}
+        .markdown-body {{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            font-size: 16px;
+        }}
     </style>
     </head>
-    <body>
-    {html}
+    <body class="markdown-body">
+    {html_body}
     </body>
     </html>
     """
@@ -52,7 +52,7 @@ logging.info("OpenAI API key loaded successfully")
 
 # Load transcript
 transcript_path = "data/transcripts/audio-biology-v1.transcript.json"
-summary_path = "data/summaries/audio-biology-v1.summary.txt"
+summary_path = "data/summaries/audio-biology-v1.summary.md"
 response_json_path = "data/summaries/audio-biology-v1.response.json" 
 
 # Check if summary already generated
@@ -100,6 +100,6 @@ else:
 
 logging.info(f"Summary (first 300 chars): {summary_text[:300]}...")
 
-# Convert txt to pdf file
+# Convert md to pdf file
 pdf_output_path = "data/summaries/audio-biology-v1.summary.pdf"
 convert_txt_to_pdf(summary_path, pdf_output_path)
