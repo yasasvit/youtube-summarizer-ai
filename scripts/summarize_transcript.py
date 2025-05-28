@@ -6,7 +6,12 @@ from dotenv import load_dotenv
 from markdown import markdown
 from weasyprint import HTML
 
-def convert_txt_to_pdf(md_path, pdf_path):
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+
+def convert_md_to_pdf(md_path, pdf_path):
     with open(md_path, "r") as f:
         md_text = f.read()
 
@@ -38,12 +43,7 @@ def convert_txt_to_pdf(md_path, pdf_path):
     """
 
     HTML(string=html).write_pdf(pdf_path)
-    print(f"PDF saved to: {pdf_path}")
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-)
+    logging.info(f"PDF saved to: {pdf_path}")
 
 # Load env variables
 load_dotenv()
@@ -91,7 +91,7 @@ else:
         json.dump(response_dict, f_json, indent=2)
     logging.info(f"Full OpenAI response saved to: {response_json_path}")
 
-    # Save sumamry locally
+    # Save summary locally
     summary_text = response.choices[0].message.content.strip()
     os.makedirs(os.path.dirname(summary_path), exist_ok=True)
     with open(summary_path, "w") as f_summary:
@@ -102,4 +102,4 @@ logging.info(f"Summary (first 300 chars): {summary_text[:300]}...")
 
 # Convert md to pdf file
 pdf_output_path = "data/summaries/audio-biology-v1.summary.pdf"
-convert_txt_to_pdf(summary_path, pdf_output_path)
+convert_md_to_pdf(summary_path, pdf_output_path)
