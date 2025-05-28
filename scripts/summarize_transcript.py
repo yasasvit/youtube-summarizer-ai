@@ -6,11 +6,13 @@ from dotenv import load_dotenv
 from markdown import markdown
 from weasyprint import HTML
 
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 
+# Converts md to pdf 
 def convert_md_to_pdf(md_path, pdf_path):
     with open(md_path, "r") as f:
         md_text = f.read()
