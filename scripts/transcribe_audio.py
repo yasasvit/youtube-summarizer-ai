@@ -24,7 +24,7 @@ parser.add_argument(
     help="Path to input file"
 )
 args = parser.parse_args()
-audio_path = args.file
+yt_path = args.file
 
 # Load file
 audio_path = "data/mp3/audio-biology-v1.mp3"
