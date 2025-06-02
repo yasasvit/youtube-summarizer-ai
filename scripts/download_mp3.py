@@ -1,15 +1,20 @@
 import subprocess
+import os
 
-# Read all YouTube links from input file
+# Define input and output paths
 input_file = "inputs/youtube_links.txt"
+output_dir = "data/mp3"
 
+os.makedirs(output_dir, exist_ok=True)
+
+# Read YouTube links
 with open(input_file, "r") as f:
     links = [line.strip() for line in f if line.strip()]
 
-# Loop through each link and run yt-dlp command
+# Download each link as MP3
 for url in links:
     print(f"Downloading: {url}")
-    command = ["yt-dlp", "-x", "--audio-format", "mp3", url]
+    command = ["yt-dlp", "-x", "--audio-format", "mp3", "-P", output_dir, url]
     try:
         subprocess.run(command, check=True)
     except subprocess.CalledProcessError as e:
