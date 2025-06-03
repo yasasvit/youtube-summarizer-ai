@@ -2,7 +2,7 @@ import subprocess
 import os
 
 # Define input and output paths
-input_file = "inputs/youtube_links.txt"
+input_file = "input/youtube_links.txt"
 output_dir = "data/mp3"
 
 os.makedirs(output_dir, exist_ok=True)
