@@ -2,6 +2,7 @@ import os
 import openai
 import json
 import logging
+import argparse
 from dotenv import load_dotenv
 
 # Configure logging
@@ -14,6 +15,16 @@ logging.basicConfig(
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 logging.info("OpenAI API key loaded successfully")
+
+# Parse command line args
+parser = argparse.ArgumentParser(description="Transcribe audio using OpenAI Whisper API")
+parser.add_argument(
+    "--file",
+    required=True,
+    help="Path to input file"
+)
+args = parser.parse_args()
+yt_path = args.file
 
 # Load file
 audio_path = "data/mp3/audio-biology-v1.mp3"
